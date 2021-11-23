@@ -1,0 +1,8 @@
+npm init -y
+npm install express
+npm i @babel/core @babel/cli @babel/node @babel/preset-env -D
+npx babel-node src/index.js
+npm i nodemon -D 
+
+
+
