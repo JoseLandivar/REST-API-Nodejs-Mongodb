@@ -1,20 +1,28 @@
 //app.js tiene la configuracion del servidor
 
-import express from 'express'
-import TasksRoutes from './routes/tasks.routes'
+import express from 'express';
+import morgan from 'morgan';
+import cors from "cors";
 
-const app = express()
+import TasksRoutes from './routes/tasks.routes';
+
+const app = express();
 
 //setings
 app.set('port', process.env.PORT || 3000);
 
+//middlewares
+const corsOptions = {};
+app.use(cors(corsOptions));
+app.use(morgan('dev'));
 app.use(express.json());
+app.use(express.urlencoded({extended: false}));
 
 //routes
-app.get('/', (req,res) => {
-    res.json({message: 'Welcome to my application'})
+app.get('/', (req, res) => {
+    res.json({ message: 'Welcome to my application' })
 })
 
-app.use('/api/tasks',TasksRoutes)
+app.use('/api/tasks', TasksRoutes);
 
 export default app;

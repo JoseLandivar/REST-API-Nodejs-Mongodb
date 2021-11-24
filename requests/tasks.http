@@ -7,6 +7,28 @@ POST http://localhost:3000/api/tasks
 Content-Type: application/json
 
 {
-    "title": "Tengo que hacer un sitio en angular",
-    "description": "trabajo freelance"
+    "title": "Tengo que hacer un sitio en Laravel",
+    "description": "trabajo freelance",
+    "done": true
+}
+ 
+###
+
+GET http://localhost:3000/api/tasks/619c5afd463a118c19012fe9
+
+###
+
+DELETE http://localhost:3000/api/tasks/619c5afd463a118c19012fe9
+
+###
+
+GET http://localhost:3000/api/tasks/done
+
+###
+
+PUT http://localhost:3000/api/tasks/619d05bc7fff98c8a33b9df9
+Content-Type: application/json
+
+{
+    "title": "Crear un sitio web en wordpress"
 }
