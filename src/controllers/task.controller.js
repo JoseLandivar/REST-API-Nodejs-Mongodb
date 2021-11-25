@@ -1,18 +1,27 @@
 import Task from "../models/Tasks";
+import {getPagination} from '../libs/getPagination'
 
 export const findAllTasks = async(req, res) => {
     try {
-        const tasks = await Task.find()
-        res.json(tasks)
+        const {size ,page} = req.query
+
+        const{limit, offset} = getPagination(page, size)
+
+        const tasks = await Task.paginate({}, { offset, limit});
+        res.json(tasks);
     } catch (error) {
         res.status(500).json({
             message: error.message || 'Algo salio mal rey'
-        })
+        });
     }
 }
 
-
 export const createTask = async ( req, res) => {
+    
+    if (!req.body.title) {
+        return res.status(400).send({ message: 'El contenido no puede ser vacio' });
+    } 
+    
     try {
         const newTasks = new Task({ 
             title: req.body.title, 
@@ -36,9 +45,22 @@ export const findAllDoneTasks = async (req,res) => {
 }
 
 export const findOneTask = async(req, res) => {
-    const task = await Task.findById(req.params.id);
+    const { id } = req.params;   
+    try {
+    const task = await Task.findById(id);
+
+    if (!task) {
+        return res
+            .status(404)
+            .json({message: `Task with id ${id} does not exist` });
+    }
     res.json(task);
-};
+    } catch (error) {
+    res.status(500).json({
+        message: error.message || `Error Retrieving Task With id:${id}`,
+    });
+    }
+}; 
 
 export const deleteTask = async (req, res) => {
     await Task.findByIdAndDelete(req.params.id)
